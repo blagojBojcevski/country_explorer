@@ -1,0 +1,44 @@
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Android
+.gradle/
+local.properties
+**/android/**/generated/
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+
+# iOS/macOS
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Pods/
+**/macos/Flutter/ephemeral/
+DerivedData/
+*.moved-aside
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Windows
+**/windows/flutter/ephemeral/
+**/windows/flutter/generated/
+**/windows/runner/x64/
+**/windows/runner/Debug/
+**/windows/runner/Release/
+**/windows/runner/Profile/
+
+# IDEs & System
+.vscode/
+.idea/
+*.iml
+.DS_Store
+*.log
