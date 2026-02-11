@@ -38,7 +38,7 @@ The app fetches all countries from the REST Countries API when it launches. You 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/blagojBojcevski/country_explorer/
+git clone https://github.com/blagojBojcevski/country_explorer.git
 cd country_explorer
 ```
 
