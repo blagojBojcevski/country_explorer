@@ -1,4 +1,4 @@
-import 'package:country_test/features/countries/data/models/name/name_dto.dart';
+import 'package:country_explorer/features/countries/data/models/name/name_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'country_dto.freezed.dart';
@@ -19,16 +19,6 @@ sealed class CountryDto with _$CountryDto {
   }) = _CountryDto;
 
   factory CountryDto.fromJson(Map<String, dynamic> json) => _$CountryDtoFromJson(json);
-}
-
-@freezed
-sealed class NameDto with _$NameDto {
-  const factory NameDto({
-    required String common,
-    required String official,
-  }) = _NameDto;
-
-  factory NameDto.fromJson(Map<String, dynamic> json) => _$NameDtoFromJson(json);
 }
 
 List<String> _capitalsFromJson(dynamic value) {

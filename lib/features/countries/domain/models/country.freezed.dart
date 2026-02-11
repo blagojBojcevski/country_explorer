@@ -14,13 +14,16 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Country {
-  String get name;
-  String get capital;
+  String get commonName;
+  String get officialName;
+  List<String> get capitals;
   String get region;
+  String get subregion;
   int get population;
-  String get flagUrl;
-  String get flagAlt;
-  String get code;
+  String get flagEmoji;
+  String get countryCode;
+  Map<String, String> get languages;
+  String get flagPngUrl;
 
   /// Create a copy of Country
   /// with the given fields replaced by the non-null parameter values.
@@ -34,23 +37,42 @@ mixin _$Country {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Country &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.capital, capital) || other.capital == capital) &&
+            (identical(other.commonName, commonName) ||
+                other.commonName == commonName) &&
+            (identical(other.officialName, officialName) ||
+                other.officialName == officialName) &&
+            const DeepCollectionEquality().equals(other.capitals, capitals) &&
             (identical(other.region, region) || other.region == region) &&
+            (identical(other.subregion, subregion) ||
+                other.subregion == subregion) &&
             (identical(other.population, population) ||
                 other.population == population) &&
-            (identical(other.flagUrl, flagUrl) || other.flagUrl == flagUrl) &&
-            (identical(other.flagAlt, flagAlt) || other.flagAlt == flagAlt) &&
-            (identical(other.code, code) || other.code == code));
+            (identical(other.flagEmoji, flagEmoji) ||
+                other.flagEmoji == flagEmoji) &&
+            (identical(other.countryCode, countryCode) ||
+                other.countryCode == countryCode) &&
+            const DeepCollectionEquality().equals(other.languages, languages) &&
+            (identical(other.flagPngUrl, flagPngUrl) ||
+                other.flagPngUrl == flagPngUrl));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, capital, region, population, flagUrl, flagAlt, code);
+      runtimeType,
+      commonName,
+      officialName,
+      const DeepCollectionEquality().hash(capitals),
+      region,
+      subregion,
+      population,
+      flagEmoji,
+      countryCode,
+      const DeepCollectionEquality().hash(languages),
+      flagPngUrl);
 
   @override
   String toString() {
-    return 'Country(name: $name, capital: $capital, region: $region, population: $population, flagUrl: $flagUrl, flagAlt: $flagAlt, code: $code)';
+    return 'Country(commonName: $commonName, officialName: $officialName, capitals: $capitals, region: $region, subregion: $subregion, population: $population, flagEmoji: $flagEmoji, countryCode: $countryCode, languages: $languages, flagPngUrl: $flagPngUrl)';
   }
 }
 
@@ -60,13 +82,16 @@ abstract mixin class $CountryCopyWith<$Res> {
       _$CountryCopyWithImpl;
   @useResult
   $Res call(
-      {String name,
-      String capital,
+      {String commonName,
+      String officialName,
+      List<String> capitals,
       String region,
+      String subregion,
       int population,
-      String flagUrl,
-      String flagAlt,
-      String code});
+      String flagEmoji,
+      String countryCode,
+      Map<String, String> languages,
+      String flagPngUrl});
 }
 
 /// @nodoc
@@ -81,42 +106,57 @@ class _$CountryCopyWithImpl<$Res> implements $CountryCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? capital = null,
+    Object? commonName = null,
+    Object? officialName = null,
+    Object? capitals = null,
     Object? region = null,
+    Object? subregion = null,
     Object? population = null,
-    Object? flagUrl = null,
-    Object? flagAlt = null,
-    Object? code = null,
+    Object? flagEmoji = null,
+    Object? countryCode = null,
+    Object? languages = null,
+    Object? flagPngUrl = null,
   }) {
     return _then(_self.copyWith(
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
+      commonName: null == commonName
+          ? _self.commonName
+          : commonName // ignore: cast_nullable_to_non_nullable
               as String,
-      capital: null == capital
-          ? _self.capital
-          : capital // ignore: cast_nullable_to_non_nullable
+      officialName: null == officialName
+          ? _self.officialName
+          : officialName // ignore: cast_nullable_to_non_nullable
               as String,
+      capitals: null == capitals
+          ? _self.capitals
+          : capitals // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       region: null == region
           ? _self.region
           : region // ignore: cast_nullable_to_non_nullable
+              as String,
+      subregion: null == subregion
+          ? _self.subregion
+          : subregion // ignore: cast_nullable_to_non_nullable
               as String,
       population: null == population
           ? _self.population
           : population // ignore: cast_nullable_to_non_nullable
               as int,
-      flagUrl: null == flagUrl
-          ? _self.flagUrl
-          : flagUrl // ignore: cast_nullable_to_non_nullable
+      flagEmoji: null == flagEmoji
+          ? _self.flagEmoji
+          : flagEmoji // ignore: cast_nullable_to_non_nullable
               as String,
-      flagAlt: null == flagAlt
-          ? _self.flagAlt
-          : flagAlt // ignore: cast_nullable_to_non_nullable
+      countryCode: null == countryCode
+          ? _self.countryCode
+          : countryCode // ignore: cast_nullable_to_non_nullable
               as String,
-      code: null == code
-          ? _self.code
-          : code // ignore: cast_nullable_to_non_nullable
+      languages: null == languages
+          ? _self.languages
+          : languages // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      flagPngUrl: null == flagPngUrl
+          ? _self.flagPngUrl
+          : flagPngUrl // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -213,16 +253,34 @@ extension CountryPatterns on Country {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String name, String capital, String region, int population,
-            String flagUrl, String flagAlt, String code)?
+    TResult Function(
+            String commonName,
+            String officialName,
+            List<String> capitals,
+            String region,
+            String subregion,
+            int population,
+            String flagEmoji,
+            String countryCode,
+            Map<String, String> languages,
+            String flagPngUrl)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _Country() when $default != null:
-        return $default(_that.name, _that.capital, _that.region,
-            _that.population, _that.flagUrl, _that.flagAlt, _that.code);
+        return $default(
+            _that.commonName,
+            _that.officialName,
+            _that.capitals,
+            _that.region,
+            _that.subregion,
+            _that.population,
+            _that.flagEmoji,
+            _that.countryCode,
+            _that.languages,
+            _that.flagPngUrl);
       case _:
         return orElse();
     }
@@ -243,15 +301,33 @@ extension CountryPatterns on Country {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String name, String capital, String region, int population,
-            String flagUrl, String flagAlt, String code)
+    TResult Function(
+            String commonName,
+            String officialName,
+            List<String> capitals,
+            String region,
+            String subregion,
+            int population,
+            String flagEmoji,
+            String countryCode,
+            Map<String, String> languages,
+            String flagPngUrl)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Country():
-        return $default(_that.name, _that.capital, _that.region,
-            _that.population, _that.flagUrl, _that.flagAlt, _that.code);
+        return $default(
+            _that.commonName,
+            _that.officialName,
+            _that.capitals,
+            _that.region,
+            _that.subregion,
+            _that.population,
+            _that.flagEmoji,
+            _that.countryCode,
+            _that.languages,
+            _that.flagPngUrl);
     }
   }
 
@@ -269,15 +345,33 @@ extension CountryPatterns on Country {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String name, String capital, String region,
-            int population, String flagUrl, String flagAlt, String code)?
+    TResult? Function(
+            String commonName,
+            String officialName,
+            List<String> capitals,
+            String region,
+            String subregion,
+            int population,
+            String flagEmoji,
+            String countryCode,
+            Map<String, String> languages,
+            String flagPngUrl)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Country() when $default != null:
-        return $default(_that.name, _that.capital, _that.region,
-            _that.population, _that.flagUrl, _that.flagAlt, _that.code);
+        return $default(
+            _that.commonName,
+            _that.officialName,
+            _that.capitals,
+            _that.region,
+            _that.subregion,
+            _that.population,
+            _that.flagEmoji,
+            _that.countryCode,
+            _that.languages,
+            _that.flagPngUrl);
       case _:
         return null;
     }
@@ -288,28 +382,51 @@ extension CountryPatterns on Country {
 
 class _Country implements Country {
   const _Country(
-      {required this.name,
-      required this.capital,
+      {required this.commonName,
+      required this.officialName,
+      required final List<String> capitals,
       required this.region,
+      required this.subregion,
       required this.population,
-      required this.flagUrl,
-      required this.flagAlt,
-      required this.code});
+      required this.flagEmoji,
+      required this.countryCode,
+      required final Map<String, String> languages,
+      required this.flagPngUrl})
+      : _capitals = capitals,
+        _languages = languages;
 
   @override
-  final String name;
+  final String commonName;
   @override
-  final String capital;
+  final String officialName;
+  final List<String> _capitals;
+  @override
+  List<String> get capitals {
+    if (_capitals is EqualUnmodifiableListView) return _capitals;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_capitals);
+  }
+
   @override
   final String region;
   @override
+  final String subregion;
+  @override
   final int population;
   @override
-  final String flagUrl;
+  final String flagEmoji;
   @override
-  final String flagAlt;
+  final String countryCode;
+  final Map<String, String> _languages;
   @override
-  final String code;
+  Map<String, String> get languages {
+    if (_languages is EqualUnmodifiableMapView) return _languages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_languages);
+  }
+
+  @override
+  final String flagPngUrl;
 
   /// Create a copy of Country
   /// with the given fields replaced by the non-null parameter values.
@@ -324,23 +441,43 @@ class _Country implements Country {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Country &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.capital, capital) || other.capital == capital) &&
+            (identical(other.commonName, commonName) ||
+                other.commonName == commonName) &&
+            (identical(other.officialName, officialName) ||
+                other.officialName == officialName) &&
+            const DeepCollectionEquality().equals(other._capitals, _capitals) &&
             (identical(other.region, region) || other.region == region) &&
+            (identical(other.subregion, subregion) ||
+                other.subregion == subregion) &&
             (identical(other.population, population) ||
                 other.population == population) &&
-            (identical(other.flagUrl, flagUrl) || other.flagUrl == flagUrl) &&
-            (identical(other.flagAlt, flagAlt) || other.flagAlt == flagAlt) &&
-            (identical(other.code, code) || other.code == code));
+            (identical(other.flagEmoji, flagEmoji) ||
+                other.flagEmoji == flagEmoji) &&
+            (identical(other.countryCode, countryCode) ||
+                other.countryCode == countryCode) &&
+            const DeepCollectionEquality()
+                .equals(other._languages, _languages) &&
+            (identical(other.flagPngUrl, flagPngUrl) ||
+                other.flagPngUrl == flagPngUrl));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, capital, region, population, flagUrl, flagAlt, code);
+      runtimeType,
+      commonName,
+      officialName,
+      const DeepCollectionEquality().hash(_capitals),
+      region,
+      subregion,
+      population,
+      flagEmoji,
+      countryCode,
+      const DeepCollectionEquality().hash(_languages),
+      flagPngUrl);
 
   @override
   String toString() {
-    return 'Country(name: $name, capital: $capital, region: $region, population: $population, flagUrl: $flagUrl, flagAlt: $flagAlt, code: $code)';
+    return 'Country(commonName: $commonName, officialName: $officialName, capitals: $capitals, region: $region, subregion: $subregion, population: $population, flagEmoji: $flagEmoji, countryCode: $countryCode, languages: $languages, flagPngUrl: $flagPngUrl)';
   }
 }
 
@@ -351,13 +488,16 @@ abstract mixin class _$CountryCopyWith<$Res> implements $CountryCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
-      String capital,
+      {String commonName,
+      String officialName,
+      List<String> capitals,
       String region,
+      String subregion,
       int population,
-      String flagUrl,
-      String flagAlt,
-      String code});
+      String flagEmoji,
+      String countryCode,
+      Map<String, String> languages,
+      String flagPngUrl});
 }
 
 /// @nodoc
@@ -372,42 +512,57 @@ class __$CountryCopyWithImpl<$Res> implements _$CountryCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? name = null,
-    Object? capital = null,
+    Object? commonName = null,
+    Object? officialName = null,
+    Object? capitals = null,
     Object? region = null,
+    Object? subregion = null,
     Object? population = null,
-    Object? flagUrl = null,
-    Object? flagAlt = null,
-    Object? code = null,
+    Object? flagEmoji = null,
+    Object? countryCode = null,
+    Object? languages = null,
+    Object? flagPngUrl = null,
   }) {
     return _then(_Country(
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
+      commonName: null == commonName
+          ? _self.commonName
+          : commonName // ignore: cast_nullable_to_non_nullable
               as String,
-      capital: null == capital
-          ? _self.capital
-          : capital // ignore: cast_nullable_to_non_nullable
+      officialName: null == officialName
+          ? _self.officialName
+          : officialName // ignore: cast_nullable_to_non_nullable
               as String,
+      capitals: null == capitals
+          ? _self._capitals
+          : capitals // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       region: null == region
           ? _self.region
           : region // ignore: cast_nullable_to_non_nullable
+              as String,
+      subregion: null == subregion
+          ? _self.subregion
+          : subregion // ignore: cast_nullable_to_non_nullable
               as String,
       population: null == population
           ? _self.population
           : population // ignore: cast_nullable_to_non_nullable
               as int,
-      flagUrl: null == flagUrl
-          ? _self.flagUrl
-          : flagUrl // ignore: cast_nullable_to_non_nullable
+      flagEmoji: null == flagEmoji
+          ? _self.flagEmoji
+          : flagEmoji // ignore: cast_nullable_to_non_nullable
               as String,
-      flagAlt: null == flagAlt
-          ? _self.flagAlt
-          : flagAlt // ignore: cast_nullable_to_non_nullable
+      countryCode: null == countryCode
+          ? _self.countryCode
+          : countryCode // ignore: cast_nullable_to_non_nullable
               as String,
-      code: null == code
-          ? _self.code
-          : code // ignore: cast_nullable_to_non_nullable
+      languages: null == languages
+          ? _self._languages
+          : languages // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      flagPngUrl: null == flagPngUrl
+          ? _self.flagPngUrl
+          : flagPngUrl // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

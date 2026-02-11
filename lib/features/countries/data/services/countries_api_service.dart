@@ -1,14 +1,13 @@
-import '../../../../core/network/api_client.dart';
-import '../models/country_dto.dart';
+import 'package:country_explorer/core/network/api_service.dart';
+import 'package:dio/dio.dart';
 
 class CountriesApiService {
-  final ApiClient _apiClient;
+  final ApiService _apiService;
 
-  CountriesApiService(this._apiClient);
+  CountriesApiService(this._apiService);
 
-  Future<List<CountryDto>> fetchAllCountries() async {
-    final response = await _apiClient.dio.get('/all');
-    final List data = response.data;
-    return data.map((json) => CountryDto.fromJson(json)).toList();
+  Future<Response> getAllCountries({String? fields}) async {
+    final path = fields != null ? '/all?fields=$fields' : '/all';
+    return await _apiService.get(path);
   }
 }
